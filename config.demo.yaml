@@ -1,0 +1,36 @@
+# 演示配置：合成数据验证流水线（真实数据请复制 config.example.yaml 修改）
+project: 演示-掺烧热值反推
+
+paths:
+  phase1: data/demo/phase1_2026.csv
+  phase2: data/demo/phase2_2026.csv
+  phase2_hist: data/demo/phase2_2024.csv
+  ledger: data/demo/ledger_2026.csv
+  ledger_hist: data/demo/ledger_2024.csv
+  truth: data/demo/truth.json
+  output_dir: outputs
+
+columns:
+  time: time
+  steam_flow: steam_flow
+  steam_p: steam_p
+  steam_t: steam_t
+  feedwater_t: feedwater_t
+  o2: o2
+  fluegas_t: fluegas_t
+
+units:
+  steam_p: MPa_g
+
+ledger_columns:
+  date: date
+  phase1_input: phase1_input
+  phase2_input: phase2_input
+  msw_in: msw_in
+  isw_sources:
+    废布料: isw_a
+    污泥: isw_b
+
+masses:
+  lag_days_msw: 3
+  lag_days_isw: 0

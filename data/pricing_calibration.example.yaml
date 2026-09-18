@@ -1,0 +1,32 @@
+# 复制为 data/pricing_calibration.yaml 后按本厂实测填写（勿把实测值提交到公开仓库）。
+# 缺省时 hhv/pricing.py 返回空 dict，回退 V4 引擎内置 OP 表。
+# 字段说明：by_blend 键为掺烧比例档（%），eta/aux 为百分数，steam_rate 为 kg/kWh。
+source: "example only — replace with your plant calibration"
+date: "1970-01-01"
+lime_kg_per_t:
+  0: 14.5
+  5: 14.8
+  10: 15.2
+  15: 15.6
+  20: 16.1
+by_blend:
+  0:
+    eta: 80.0
+    aux: 13.0
+    steam_rate: 5.5
+  5:
+    eta: 80.0
+    aux: 13.0
+    steam_rate: 5.5
+  10:
+    eta: 79.5
+    aux: 13.5
+    steam_rate: 5.6
+  15:
+    eta: 79.0
+    aux: 14.0
+    steam_rate: 5.7
+  20:
+    eta: 78.5
+    aux: 14.5
+    steam_rate: 5.8

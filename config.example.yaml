@@ -1,0 +1,71 @@
+# 真实数据配置模板：复制为 config.yaml，把路径与列名改成你的文件
+project: 掺烧工业固废热值反推
+
+paths:
+  phase1: data/phase1_2026.csv        # 一期当期（纯烧）小时/日均值
+  phase2: data/phase2_2026.csv        # 二期当期（掺烧）
+  phase2_hist: data/phase2_2024.csv   # 二期两年前纯烧（交叉验证，强烈建议提供）
+  ledger: data/ledger.xlsx            # 当期台账（按日）
+  ledger_hist: data/ledger_2024.xlsx  # 两年前台账（有则提供，闸门必需）
+  output_dir: outputs
+
+sheet: null                           # Excel sheet 名；null=第一个
+
+# 列名映射：右侧值改成你文件里的实际列名（中文列名直接填中文）
+columns:
+  time: 时间
+  steam_flow: 主蒸汽流量              # t/h 必需（过热器出口，已含减温水）
+  steam_p: 主蒸汽压力                # MPa 必需
+  steam_t: 主蒸汽温度                # ℃ 必需
+  feedwater_t: 给水温度              # ℃ 必需
+  o2: 烟气氧量                       # % 强烈建议（省煤器出口）
+  fluegas_t: 排烟温度                # ℃ 强烈建议
+  spray_flow: null                   # t/h 可选：减温水流量
+  blowdown_flow: null                # t/h 可选：连续排污流量
+
+units:
+  steam_p: MPa_g                     # MPa_g 表压 | MPa_a 绝压
+  o2: percent_dry
+
+ledger_columns:
+  date: 日期
+  phase1_input: 一期入炉量           # t/日 必需
+  phase2_input: 二期入炉量           # t/日 必需
+  msw_in: 生活垃圾进厂量             # t/日 必需
+  isw_sources:                       # 来源名 → 台账列名（分来源定价的关键）
+    废布料: 废布料进厂量
+    # 污泥: 污泥进厂量
+
+masses:
+  lag_days_msw: 3                    # 生活垃圾进厂→入炉 滞后天数（垃圾池滞留）
+  lag_days_isw: 0
+
+efficiency:
+  mode: reverse_balance              # reverse_balance | constant
+  # q2% = (q2_k1×过量空气系数 + q2_k2) × (排烟温度-环境温度)/100
+  q2_k1: 3.55
+  q2_k2: 0.44
+  ambient_t: 20
+  q4_default: 2.0                    # 有热灼减率数据时按化验值替换（后续版本）
+  q5_rated: 1.0
+  q6_default: 0.2
+
+boilers:
+  phase1: {name: 一期, rated_flow: 40}   # t/h 额定蒸发量
+  phase2: {name: 二期, rated_flow: 32}
+
+screening:
+  min_load_frac: 0.70
+  min_valid_hours: 20
+  step_jump: 0.30
+  step_guard_hours: 2
+  min_valid_days_per_week: 5
+
+regression:
+  bootstrap: 2000
+  ci: 0.95
+  huber_t: 1.345
+
+calibration:
+  gate1: 0.05
+  gate2: 0.10

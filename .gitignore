@@ -1,0 +1,41 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+.python-version
+
+# 运行产物（run.py / 定价报告可重生成）
+outputs/
+
+# 本机真实数据配置（含路径），模板与演示配置入库
+config.yaml
+config.yml
+# 厂内 SNMIS 生产配置（含企业口径/排除日期等，不入库）
+config.snmis*.yaml
+!config.example.yaml
+!config.demo.yaml
+
+# 真实业务数据：生产运行、化验、定价校准（开源仓库只保留 demo）
+data/plant/
+data/assays/
+data/pricing_calibration.yaml
+data/snmis_raw/
+data/snmis_history.db
+*.db
+data_c_backup/
+
+# 本机 Excel / 临时
+*.xlsx
+~$*.xlsx
+Thumbs.db
+.DS_Store
+
+# 运行日志与状态（含本机路径/账号名等，勿入库）
+*.log
+*_log.txt
+pull_state.json
+search_out.json
