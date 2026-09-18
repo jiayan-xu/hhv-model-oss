@@ -41,7 +41,13 @@ python scripts/showcase.py
 若你方有内网报表系统，请在私有仓库自行维护拉数脚本，并将凭据放在 `.env`
 （参考 `.env.example`：`SNMIS_BASE_URL`、`HHV_SECRETS_DIR`、`DASHBOARD_DB`）。
 
-核心库只负责：读本地 CSV/台账 → 反推热值 → 闸门 → 报告/定价。
+**DCS 小时库**若要接入二期时序或效率互证闸门，请按脱敏字典自建 SQLite：
+
+- 说明：[`docs/dcs_db_schema.md`](docs/dcs_db_schema.md)
+- DDL：[`docs/dcs_db_schema.sql`](docs/dcs_db_schema.sql)
+- 默认库路径：`data/snmis_history.db`（gitignore；或 `paths.dcs_hourly_db`）
+
+核心库只负责：读本地 CSV/台账（或上述 DCS 库）→ 反推热值 → 闸门 → 报告/定价。
 
 ## 输出结构（`outputs/<run_name>/`）
 
@@ -87,6 +93,7 @@ python scripts/validate_pricing.py
 ```
 hhv/           模型与定价引擎
 scripts/       演示与校验（make_demo_data / run 路径 / validate_pricing / showcase）
+docs/          脱敏 DCS 库字典与 DDL
 data/demo/     合成数据（可入库）
 config.demo.yaml / config.example.yaml
 .env.example   环境变量模板（本机 .env 勿提交）
