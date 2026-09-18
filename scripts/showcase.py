@@ -24,8 +24,9 @@ from hhv.pricing import (BatchInput, batch_economics, fixed_cost_per_t,  # noqa:
                          load_plant_slag, price_tier_table)
 
 KJ_PER_KCAL = 4.186
-CONFIG = ROOT / "config.snmis_daily.yaml"
-OUT = ROOT / "outputs" / "config.snmis_daily"
+# 演示用；真实项目请换成 config.example.yaml 映射后的本机 config.yaml
+CONFIG = ROOT / "config.demo.yaml"
+OUT = ROOT / "outputs" / "config.demo"
 HTML = OUT / "showcase.html"
 PRICES = [40, 50, 60, 70, 80, 90, 100]
 

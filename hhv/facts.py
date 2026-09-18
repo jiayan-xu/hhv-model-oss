@@ -1,9 +1,7 @@
 """跑批产物读取层 —— 对外报告/导出的唯一取数入口。
 
-审计背景（2026-09-08）：export_report_*.py 曾把 5192 kJ / 1240 大卡 / 24 周 / k=1.10
-等结论数字写死在代码里，模型重跑后交给厂方与领导的 Word/PPT 静默过期。
-此后对外数字一律经本模块从 outputs/<cfg>/result.json（+ verify_isw.json、weekly_series.csv）
-读取；文件缺失或字段缺失直接抛错，宁可导出失败也不出旧数。
+约定：对外数字一律经本模块从 outputs/<cfg>/result.json（及可选 verify_isw.json、
+weekly_series.csv）读取，禁止在报告脚本里写死热值/闸门结论；文件或字段缺失直接抛错。
 
 口径对应（与 hhv/report.py 的三解法一致）：
   解法A 自由回归（校验）      ci_free      Q_工业固废

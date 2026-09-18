@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from hhv import balance, calib, config as cfgmod, loader, masses, regression, screening
 
-CFG = "config.snmis_2025.yaml"
+CFG = "config.demo.yaml"  # 厂内年度配置不入库；本地请指向自己的 config.yaml
 
 
 def main() -> int:

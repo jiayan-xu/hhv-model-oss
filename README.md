@@ -35,16 +35,13 @@ python scripts/showcase.py
 定价引擎若要使用**本厂实测效率校准**，将 `data/pricing_calibration.example.yaml`
 复制为 `data/pricing_calibration.yaml` 后填写；文件不存在时引擎回退内置 OP 表。
 
-## 生产系统拉数（可选，需自备地址与凭据）
+## 生产系统拉数（可选）
 
-脚本 `scripts/snmis_login.py`、`pull_dcs_hourly.py`、`fetch_*.py` 用于从厂内
-SNMIS/DCS 报表系统拉取数据。仓库**不内置**任何主机地址或账号：
+本仓库**不包含**厂内 SNMIS/DCS 拉数与月度报告导出脚本（含账号、报表口径与企业数据）。
+若你方有内网报表系统，请在私有仓库自行维护拉数脚本，并将凭据放在 `.env`
+（参考 `.env.example`：`SNMIS_BASE_URL`、`HHV_SECRETS_DIR`、`DASHBOARD_DB`）。
 
-```bash
-cp .env.example .env
-# 编辑 .env：SNMIS_BASE_URL、HHV_SECRETS_DIR、DASHBOARD_DB 等
-# 账密放在 .env 指向的 secrets 目录，勿提交到 Git
-```
+核心库只负责：读本地 CSV/台账 → 反推热值 → 闸门 → 报告/定价。
 
 ## 输出结构（`outputs/<run_name>/`）
 
@@ -63,15 +60,14 @@ cp .env.example .env
 ## 定价引擎
 
 `hhv/pricing.py` 将市场化处置测算表引擎化，支持掺烧分档、石灰单耗、
-热值不确定性抽样与报价分档。合成/演示口径可用：
+热值不确定性抽样与报价分档。演示/引擎校验可用：
 
 ```bash
 python scripts/validate_pricing.py
-python scripts/build_pricing_report.py --v4
 ```
 
-厂内实测校准值与具体报价结论**不在本仓库**，请在本机 `data/plant/` 与
-`data/pricing_calibration.yaml` 中自行维护（均已 gitignore）。
+厂内实测效率校准请复制 `data/pricing_calibration.example.yaml` 后本机填写；
+真实炉渣出厂量等放在本机 `data/plant/`（已 gitignore），**不要提交到公开仓库**。
 
 ## 合成数据验证（可复现）
 
@@ -90,12 +86,10 @@ python scripts/build_pricing_report.py --v4
 
 ```
 hhv/           模型与定价引擎
-scripts/       演示、校验、报表；拉数脚本依赖 .env
+scripts/       演示与校验（make_demo_data / run 路径 / validate_pricing / showcase）
 data/demo/     合成数据（可入库）
-data/plant/    真实运行数据（gitignore，本机自备）
-data/assays/   化验台账（gitignore，本机自备）
 config.demo.yaml / config.example.yaml
-.env.example   环境变量模板
+.env.example   环境变量模板（本机 .env 勿提交）
 ```
 
 ## License
